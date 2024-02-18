@@ -70,19 +70,19 @@ class FeatureExtract (object):
             self.sha256_hash = sha256 (byte_stream).hexdigest()
     
     def extract_header_s (self, binary: lief.PE.Binary = None) -> None:
-        # Extract optional header size
+        # Extract the real size of the image
         self.header_size = 0
     
     def extract_virtual_s (self, binary: lief.PE.Binary = None) -> None:
-        # Extract virtual header size
+        # Extract the virutal size of the image
         self.virtual_size = 0
     
     def extract_machine (self, binary: lief.PE.Binary = None) -> None:
-        # Extract COFF header's target machine
+        # Extract the __name__ of the target machine found in the COFF header
         self.target_machine = ""
     
     def extract_sec_count (self, binary: lief.PE.Binary = None) -> None:
-        # Extract COFF header's section count
+        # Extract the number of sections within the executable the COFF header lists
         self.section_count = 0
     
     def extract_sec_data (self, binary: lief.PE.Binary = None) -> None:
