@@ -32,40 +32,46 @@ primarily tailored towards Linux, but there should be very little tweaking neede
 
 ```
 $ git clone https://github.com/AIMA-Project/AAMA-Lab01
-$ cd AAMA-Lab01
+$ cd AAMA-Lab01/Lab01a
 $ python3 -m venv venv
-$ source /venv/bin/activate
+$ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-## Docker Container
+## Docker Building
+**It is important to note that Linux users will have to run Docker commands as root or using the `sudo` command!**
+
 This method of installation requires Docker to be installed and running on the user's computer. These instructions
-should work for both Linux and Windows operating systems, but there may need to be some tweaking. It should be noted
-that installation is done in 2 parts:
-1. Clone the repository to the computer running Docker.
-2. Finishing installation within the Docker image itself.
+should work for both Linux and Windows operating systems, but there may need to be some tweaking.
 
-### Part 1: Download Repository
+A pre-built image is availabe on [Docker Hub](https://hub.docker.com/r/wheelercs/aama-lab01) if you wish to skip the
+building process. This image is automatically built, so it stays up to date with the repository.
+
+Building the image can be done in two simple commands. For Linux users, these commands are found in `docker_setup.sh`,
+and that script can be ran to automatically perform the image building and container creation. For Windows users, or
+those who wish to run the commands manually, they are as follows:
+
 ```
-$ git clone https://github.com/AIMA-Project/AAMA-Lab01
-$ cd AAMA-Lab01
-$ chmod +x docker_setup.sh
-$ ./docker_setup.sh
-```
-
-After running the above set of commands, your terminal should be running inside a Docker container. From here, the
-second part of installation can be done.
-
-### Part 2: Setup Docker Image
-
-The below set of commands finish setup inside the Docker container by setting up the Python environment.
-```
-$ cd /home
-$ chmod +x setup.sh
-$ ./setup.sh
-$ source venv/bin/activate
+$ docker build -t lab01 .
+$ docker run -it lab01
 ```
 
-## Running the Container
-The setup script will load a shell in the Docker image the first time it's ran. To access the container in the future,
-the command `docker run -it lab01 bin/bash` can be used.
+This builds the image and gives it the name "lab01" before creating a container from that image in an interactive
+terminal. To disconnect the terminal from Docker and simultaneously shutdown the container, `exit` can be typed.
+
+
+## Future Access
+Accessing Docker can vary depending on the IDE and operating system you use. Visual Studio Code has a number of plugins
+that make accessing a Docker container fairly straightforward.
+
+Without any plugins or GUI, accessing an already existing container requires first starting it in the background, then
+attaching a terminal session to it.
+
+```
+$ docker start <container-name>
+$ docker attach <container-name>
+```
+
+The name of the container is randomly generated during creation when using the `run` command. To obtain the name of the
+container while it is not running, use the command `docker ps -a`. To find the name of the container while it is
+running, issue the command `docker image ls`. When done, the container can be shutdown with `exit`.
