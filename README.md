@@ -3,8 +3,8 @@ This lab seeks to introduce students machine learning concepts of feature extrac
 accomplished through the use of Python and the LIEF library.
 
 There are two methods for installation:
-1. Standard installation on a bare-metal system.</li>
-2. Creation of a docker image that contains the needed environment.</li>
+1. Standard installation on a bare-metal system.
+2. Creation of a docker image that contains the needed environment.
 
 Instructions for both methods can be found below.
 
@@ -57,7 +57,7 @@ $ source venv/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
-## Docker Building
+## Building and Running
 This method of installation requires Docker to be installed and running on the user's computer. These instructions
 should work for both Linux and Windows operating systems, but there may be some slight deviations for your system.
 
@@ -84,14 +84,26 @@ container. **You will lose any data stored in the container when you perform thi
 If you need to rebuild the entire image from scratch, you can first delete the current image stored on your machine with
 `docker image rm lab01-image`, then use the above commands to build and reploy the new version.
 
-## Future Access
-Accessing Docker can vary depending on the IDE and operating system you use. Visual Studio Code has a number of plugins
-that make accessing a Docker container fairly straightforward.
+## Accessing the Container
+If lab the needs to be accessed in the future, an already-existing container can be started again to continue work from
+the point left off. Depending on the IDE and method by which you are calling Docker, the steps for starting and
+attaching to the container will vary.
 
-Without any plugins or GUI, accessing an already existing container requires first starting it in the background, then
-attaching a terminal session to it.
+The most basic method of reinstantiating a container is by using Docker's command-line tools. Two commands are needed to
+restart the container and then attach your terminal to it.
 
 ```
 $ docker start lab01
 $ docker attach lab01
 ```
+
+A more advance approach if an IDE is being used is to utilize plugins or extensions to allow interfacing with the Docker
+service and your containers.
+
+Microsoft offers two plugins for [Visual Studio Code](https://code.visualstudio.com) that integrate with Docker and
+allow for starting and stopping containers, deleting containers and images, and attaching VSCode to a Docker container
+as if it was a local project directory.
+- [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+- [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+Using both of these plugins allows for extensive integration with Docker and greatly simplifies interfacing with it.
