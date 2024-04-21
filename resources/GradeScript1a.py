@@ -32,7 +32,7 @@ from unittest import TestCase
 
 # Import the FeatureExtract class the student wrote as part of the lab. Its
 # extraction methods will be tested and compared against known good data.
-from FeatureExtraction1b import FeatureExtract
+from FeatureExtraction1a import FeatureExtract
 
 
 TEST_FILE = "ExamplePE.exe"
