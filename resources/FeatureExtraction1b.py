@@ -15,9 +15,41 @@ class FeatureExtract (object):
 
 # === Paste Lab 1a Methods Below This Line =========================================================
 
-# === Paste Lab 1a Methods Above This Line =========================================================
 
 # === Lab 1b Methods Start Here ====================================================================
+# Encoding Schemes:
+#
+# Target Machine
+#   UNKNOWN = 0x01 (0b00000001)
+#   I386    = 0x02 (0b00000010)
+#   AMD64   = 0x04 (0b00000100)
+#   ARM64   = 0x08 (0b00001000)
+#
+# Section Names
+#   .text     = 0x000001
+#   .rdata    = 0x000002
+#   .data     = 0x000004
+#   .ndata    = 0x000008
+#   .rsrc     = 0x000010
+#   .itext    = 0x000020
+#   .bss      = 0x000040
+#   .idata    = 0x000080
+#   .didata   = 0x000100
+#   .edata    = 0x000200
+#   .tls      = 0x000400
+#   .buildid  = 0x000800
+#   .reloc    = 0x001000
+#   .UPX0     = 0x002000
+#   .UPX1     = 0x004000
+#   .qtmetad  = 0x008000
+#   .qtmimed4 = 0x010000
+#   .pdata    = 0x020000
+#   .xdata    = 0x040000
+#   .CRT      = 0x080000
+#   .debug    = 0x100000
+#
+
+
     def encode_target_machine (self) -> None:
         # Encode target machine using one-hot encoding schema
         pass
