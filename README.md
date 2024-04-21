@@ -21,7 +21,7 @@ the new executable.
 
 Alternatively, you can download the executable related to this lab
 [here](https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.4/npp.8.5.4.Installer.x64.exe) and
-put it into the "Lab01a" directory under the name "ExamplePE.exe".
+put it into the "resources" directory under the name "ExamplePE.exe".
 
 If you wish to use a container for the lab, instructions for installing Docker can be found on their website:
 - [Windows](https://docs.docker.com/desktop/install/windows-install/)
@@ -35,14 +35,14 @@ managing containers and images.
 A standard installation of the project on a system without using Docker requires Python 3, with Git also being highly
 recommended. The general set of steps needed for installation are as follows:
 1. Clone the repository to your machine.
-2. Open the "Lab01a" directory of repo in a terminal.
+2. Open the "resources" directory of repo in a terminal.
 3. Initialize the virtual environment for Python.
 4. Install the needed packages into the virual environment.
 
 ### Windows
 ```
 $ git clone https://github.com/AIMA-Project/AAMA-Lab01
-$ cd AAMA-Lab01/Lab01a
+$ cd AAMA-Lab01/resources
 $ py -m venv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
@@ -51,7 +51,7 @@ $ pip install -r requirements.txt
 ### Linux
 ```
 $ git clone https://github.com/AIMA-Project/AAMA-Lab01
-$ cd AAMA-Lab01/Lab01a
+$ cd AAMA-Lab01/resources
 $ python3 -m venv venv
 $ source venv/bin/activate
 $ pip3 install -r requirements.txt
