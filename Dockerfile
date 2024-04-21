@@ -10,13 +10,14 @@ RUN apt install nano vim -y
 
 # Create new user for lab
 RUN useradd -ms /bin/bash aama
-USER aama
 WORKDIR /home/aama
 
 # Move lab code over to container
 COPY resources/* .
+RUN chown -R aama:aama /home/aama
 
 # Perform user-level setup tasks
+USER aama
 RUN python3 -m venv venv
 RUN source venv/bin/activate && pip3 install -r requirements.txt
 
