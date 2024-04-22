@@ -2,6 +2,13 @@
 This lab seeks to introduce students machine learning concepts of feature extraction and data encoding. This is
 accomplished through the use of Python and the LIEF library.
 
+| Table of Contents |
+|-------------------|
+| [Preinstallation](#preinstall) |
+| [Non-Docker Installation](#nondocker-install) |
+| [Image Creation and Instantiation](#image-create) |
+| [Accessing the Container](#access-container) |
+
 There are two methods for installation:
 1. Standard installation on a bare-metal system.
 2. Creation of a docker image that contains the needed environment.
@@ -13,15 +20,13 @@ a pre-built image can be found on [Docker Hub](https://hub.docker.com/r/wheelerc
 automatically built and deployed whenever a push is made to the project repository, thus, it is always kept up to date
 with the most recent version of the lab.
 
-## Preinstallation
+## <a id=preinstall>Preinstallation</a>
 
 This lab requires a portable executable (PE) file compiled for Windows to be added by the user. Almost any .exe file
 from the last 20 years should be sufficient. However, if you do this, the grading script must be modified to accomodate
-the new executable.
+the new executable. The new executable should be added to the repository in the "resources" directory and given the
+name "ExamplePE.exe" so it is properly handled.
 
-Alternatively, you can download the executable related to this lab
-[here](https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.4/npp.8.5.4.Installer.x64.exe) and
-put it into the "resources" directory under the name "ExamplePE.exe".
 
 If you wish to use a container for the lab, instructions for installing Docker can be found on their website:
 - [Windows](https://docs.docker.com/desktop/install/windows-install/)
@@ -31,7 +36,7 @@ If you wish to use a container for the lab, instructions for installing Docker c
 Docker Desktop is not needed so long as the command line tools are installed. However, it may be useful having a GUI for
 managing containers and images.
 
-## Standard Installation
+## <a id=nondocker-install>Non-Docker Installation</a>
 A standard installation of the project on a system without using Docker requires Python 3, with Git also being highly
 recommended. The general set of steps needed for installation are as follows:
 1. Clone the repository to your machine.
@@ -40,11 +45,12 @@ recommended. The general set of steps needed for installation are as follows:
 4. Install the needed packages into the virual environment.
 
 ### Windows
+<!-- Why Windows gotta be different and use back slashes? -->
 ```
 $ git clone https://github.com/AIMA-Project/AAMA-Lab01
-$ cd AAMA-Lab01/resources
+$ cd AAMA-Lab01\resources
 $ py -m venv venv
-$ source venv/bin/activate
+$ .\venv\bin\Activate.ps1
 $ pip install -r requirements.txt
 ```
 
@@ -57,7 +63,7 @@ $ source venv/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
-## Building and Running
+## <a id=image-create>Image Creation and Instantiation</a>
 This method of installation requires Docker to be installed and running on the user's computer. These instructions
 should work for both Linux and Windows operating systems, but there may be some slight deviations for your system.
 
@@ -65,8 +71,13 @@ should work for both Linux and Windows operating systems, but there may be some 
 follow the [official directions](https://docs.docker.com/engine/install/linux-postinstall/) for how to bypass this, but
 it highly recommended that you do not.**
 
-Building the image can be done in two simple commands. Alternatively, these commands can be ran on Windows or Linux with
-"docker_setup.ps1" and "docker_setup.sh" respectively.
+Building the image can be done in two simple commands. Alternatively, these commands are provided in the
+"docker_setup.ps1" script.
+
+While this is a `.ps1` file, it should have syntax compatible with most Linux systems. The executable bit may need to be
+set before running, which requires the command `chmod +x docker_setup.ps1` to be ran. Remember that unless Docker has
+been setup to bypass needing elevated privileges, `sudo` will have to be used before running the script.
+<!-- TODO: Actually test to see if it runs on Linux... -->
 
 ```
 $ docker build -t lab01-image .
@@ -84,7 +95,7 @@ container. **You will lose any data stored in the container when you perform thi
 If you need to rebuild the entire image from scratch, you can first delete the current image stored on your machine with
 `docker image rm lab01-image`, then use the above commands to build and reploy the new version.
 
-## Accessing the Container
+## <a id=access-container>Accessing the Container</a>
 If lab the needs to be accessed in the future, an already-existing container can be started again to continue work from
 the point left off. Depending on the IDE and method by which you are calling Docker, the steps for starting and
 attaching to the container will vary.
@@ -106,4 +117,5 @@ as if it was a local project directory.
 - [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 - [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
-Using both of these plugins allows for extensive integration with Docker and greatly simplifies interfacing with it.
+Using both of these plugins allows for extensive integration with Docker and greatly simplifies interfacing with it. It
+also allows for easy transference of files between the Docker container and host OS.

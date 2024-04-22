@@ -1,5 +1,5 @@
 from unittest import TestCase
-from FeatureExtraction import FeatureExtract
+from FeatureExtraction1b import FeatureExtract
 
 
 TEST_FILE = "ExamplePE.exe"
