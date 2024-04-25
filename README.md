@@ -16,17 +16,17 @@ There are two methods for installation:
 Instructions for both methods can be found below.
 
 For those already familiar with Docker, but who do not want to go through the process of building the image themselves,
-a pre-built image can be found on [Docker Hub](https://hub.docker.com/r/wheelercs/aama-lab01). This image is
+a pre-built image can be found on [Docker Hub](https://hub.docker.com/r/abcyslab/aama_lab01). This image is
 automatically built and deployed whenever a push is made to the project repository, thus, it is always kept up to date
 with the most recent version of the lab.
 
 ## <a id=preinstall>Preinstallation</a>
 
-This lab requires a portable executable (PE) file compiled for Windows to be added by the user. Almost any .exe file
-from the last 20 years should be sufficient. However, if you do this, the grading script must be modified to accomodate
-the new executable. The new executable should be added to the repository in the "resources" directory and given the
-name "ExamplePE.exe" so it is properly handled.
-
+This lab requires a portable executable (PE) file compiled for Windows to be added by the user. Currently the image
+automatically downloads a predetermined executable file during building. If you opt to use another PE file, almost any
+.exe file from the last 20 years should be sufficient. However, if you do this, the grading script must be modified to
+accomodate the new executable. The new executable should be added to the repository in the "resources" directory and
+given the name "ExamplePE.exe" so it is properly handled.
 
 If you wish to use a container for the lab, instructions for installing Docker can be found on their website:
 - [Windows](https://docs.docker.com/desktop/install/windows-install/)
@@ -37,7 +37,7 @@ Docker Desktop is not needed so long as the command line tools are installed. Ho
 managing containers and images.
 
 ## <a id=nondocker-install>Non-Docker Installation</a>
-A standard installation of the project on a system without using Docker requires Python 3, with Git also being highly
+A standard install of the project on a system without using Docker requires Python 3, with Git also being highly
 recommended. The general set of steps needed for installation are as follows:
 1. Clone the repository to your machine.
 2. Open the "resources" directory of repo in a terminal.
@@ -67,6 +67,7 @@ $ pip3 install -r requirements.txt
 This method of installation requires Docker to be installed and running on the user's computer. These instructions
 should work for both Linux and Windows operating systems, but there may be some slight deviations for your system.
 
+<!-- This is a HUGE security issue. Please don't do this unless you have to. -->
 **It is important to note that Linux users will have to run Docker commands as root or using the `sudo` command! You can
 follow the [official directions](https://docs.docker.com/engine/install/linux-postinstall/) for how to bypass this, but
 it highly recommended that you do not.**
@@ -76,17 +77,18 @@ Building the image can be done in two simple commands. Alternatively, these comm
 
 While this is a `.ps1` file, it should have syntax compatible with most Linux systems. The executable bit may need to be
 set before running, which requires the command `chmod +x docker_setup.ps1` to be ran. Remember that unless Docker has
-been setup to bypass needing elevated privileges, `sudo` will have to be used before running the script.
+been setup to bypass needing elevated privileges, `sudo` will have to be used when calling the script.
 <!-- TODO: Actually test to see if it runs on Linux... -->
 
+Alternatively, the two commands can be ran manually in succession:
 ```
 $ docker build -t lab01-image .
 $ docker run --name lab01 -it lab01-image
 ```
 
-These commands perform two operations in succession:
-1. Builds a static base image called "lab01-image" from which instances of the lab (called containers) can be created.
-2. Creates a container instance of the lab and gives it the name "lab01."
+These commands perform the following operations:
+1. Build a static base image called "lab01-image" from which instances of the lab (called containers) can be created.
+2. Create a container instance of the lab and give it the name "lab01."
 
 If you need to redeploy the container from the image at any point, you must first delete the current instance of the
 lab container. The command `docker container rm lab01` can be used to delete the current instance of the lab01
@@ -119,3 +121,18 @@ as if it was a local project directory.
 
 Using both of these plugins allows for extensive integration with Docker and greatly simplifies interfacing with it. It
 also allows for easy transference of files between the Docker container and host OS.
+
+___
+**Project funded by the National Science Foundation (NSF)**
+
+<!--
+ ____                                                                  __                             
+/\  _`\                                                               /\ \                            
+\ \ \/\ \  _ __    __   __  __  __      __  __  __     __      ____   \ \ \___      __   _ __    __   
+ \ \ \ \ \/\`'__\/'__`\/\ \/\ \/\ \    /\ \/\ \/\ \  /'__`\   /',__\   \ \  _ `\  /'__`\/\`'__\/'__`\ 
+  \ \ \_\ \ \ \//\  __/\ \ \_/ \_/ \   \ \ \_/ \_/ \/\ \L\.\_/\__, `\   \ \ \ \ \/\  __/\ \ \//\  __/ 
+   \ \____/\ \_\\ \____\\ \___x___/'    \ \___x___/'\ \__/.\_\/\____/    \ \_\ \_\ \____\\ \_\\ \____\
+    \/___/  \/_/ \/____/ \/__//__/       \/__//__/   \/__/\/_/\/___/      \/_/\/_/\/____/ \/_/ \/____/
+
+Thursday, April 25, 2024
+-->                                                                                                  
