@@ -1,14 +1,14 @@
 '''
-File: UnitTestGradeScript.py
+File: GradeScript1a.py
 Author: Drew Wheeler
-Last Edit: 2023-07-29_15:09-UTC
+Last Edit: 2024-08-23
 
 
 This file was written for Lab 1a of the AI-Assisted Malware Analysis Project,
 funded by the NSF (grant #2025682).
 
 
-Script Usage: python3 -m unittest UnitTestGradeScript.py
+Script Usage: python3 -m unittest GradeScript1a.py
 
 
 This file is intended to act as a grading script for the lab 1a assignment. It
@@ -41,16 +41,16 @@ TEST_FILE = "ExamplePE.exe"
 class TestFeatureExtract (TestCase):
     def setUp (self) -> None:
         # Orignal file is the x64 installer for Notepad++ v.8.5.4 (npp.8.5.4.Installer.x64.exe)
-        self.sha256_hash:    str = "1df56772594a5ec2f550c7727a4879142736106da68b5d185c4391e08b48ec5e"
-        self.header_size:    int = 446464
-        self.virtual_size:   int = 446464
-        self.target_machine: str = "I386"
-        self.section_count:  int = 5
-        self.sections:    dict() = {".text": 6.4723,
-                                    ".rdata": 5.2098,
-                                    ".data": 4.1106,
-                                    ".ndata": 0.0000,
-                                    ".rsrc": 5.7320}
+        self.sha256_hash:           str = "1df56772594a5ec2f550c7727a4879142736106da68b5d185c4391e08b48ec5e"
+        self.header_size:           int = 446464
+        self.virtual_size:          int = 446464
+        self.target_machine:        str = "I386"
+        self.section_count:         int = 5
+        self.sections: dict[str, float] = {".text": 6.4723,
+                                           ".rdata": 5.2098,
+                                           ".data": 4.1106,
+                                           ".ndata": 0.0000,
+                                           ".rsrc": 5.7320}
         self.features: FeatureExtract = FeatureExtract()
         self.features.extract_features (TEST_FILE)
 

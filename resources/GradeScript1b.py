@@ -1,3 +1,19 @@
+'''
+File: GradeScript1b.py
+Author: Drew Wheeler
+Last Edit: 2024-08-23
+
+
+This file was written for lab 1b of the AI-Assisted Malware Analysis project funded by the NSF (Grant #2025682).
+
+
+Script Usage: python3 -m unittest GradeScript1b.py
+
+This file is intended to act as a grading script for the lab assignment associated with section 1b. It has been
+configured such that the test cases utilize the same file as the lab assignment. However, given a sufficient
+understanding of the code, the lab could be modified to acommodate any executable file.
+'''
+
 from unittest import TestCase
 from FeatureExtraction1b import FeatureExtract
 
@@ -7,19 +23,19 @@ TEST_FILE = "ExamplePE.exe"
 
 class TestFeatureExtract (TestCase):
     def setUp (self) -> None:
-        self.sha256_hash: str = "1df56772594a5ec2f550c7727a4879142736106da68b5d185c4391e08b48ec5e"
-        self.target_machine: str = "I386"
-        self.sections: dict() = {".text": 6.4723,
-                                 ".rdata": 5.2098,
-                                 ".data": 4.1106,
-                                 ".ndata": 0.0000,
-                                 ".rsrc": 5.7320}
-        self.enc_target_machine: str = "0x02"
-        self.enc_sections: dict() = {"0x000001": 6.4723,
-                                     "0x000002": 5.2098,
-                                     "0x000004": 4.1106,
-                                     "0x000008": 0.0000,
-                                     "0x000010": 5.7320}
+        self.sha256_hash:               str = "1df56772594a5ec2f550c7727a4879142736106da68b5d185c4391e08b48ec5e"
+        self.target_machine:            str = "I386"
+        self.sections:     dict[str, float] = {".text": 6.4723,
+                                               ".rdata": 5.2098,
+                                               ".data": 4.1106,
+                                               ".ndata": 0.0000,
+                                               ".rsrc": 5.7320}
+        self.enc_target_machine:        str = "0x02"
+        self.enc_sections: dict[str, float] = {"0x000001": 6.4723,
+                                               "0x000002": 5.2098,
+                                               "0x000004": 4.1106,
+                                               "0x000008": 0.0000,
+                                               "0x000010": 5.7320}
         self.features: FeatureExtract = FeatureExtract()
         self.features.extract_features (TEST_FILE)
 
