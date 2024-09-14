@@ -16,14 +16,12 @@ WORKDIR /home/aama
 RUN wget https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.4/npp.8.5.4.Installer.x64.exe -O "ExamplePE.exe"
 
 # Move lab code over to container
-COPY resources/* .
+COPY resources/* /home/aama/
 RUN chown -R aama:aama /home/aama
 
 # Perform user-level setup tasks
 USER aama
-RUN python3 -m venv venv
-RUN source venv/bin/activate && pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Tell Docker to open a terminal in bash instead of Python interpreter
-ENV PATH="venv/bin:$PATH"
 CMD ["/bin/bash"]
