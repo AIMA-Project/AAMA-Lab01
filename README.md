@@ -270,7 +270,6 @@ You've successfully completed the lab when:
 
 ---
 
-**📧 Need Help?** Ask your instructor or TA if you get stuck!
+**📧 Need Help?** Email: mubayeid16@gmail.com!
 
 **�‍💻 Project Enhanced by:** Md Ubayeid Ullah  
-**�🔬 Funded by:** National Science Foundation (NSF) Grant #2025682
