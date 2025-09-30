@@ -1,138 +1,276 @@
 # AI-Assisted Malware Analysis Lab 01: Feature Extraction and Data Encoding
-This lab seeks to introduce students machine learning concepts of feature extraction and data encoding. This is
-accomplished through the use of Python and the LIEF library.
 
-| Table of Contents |
-|-------------------|
-| [Preinstallation](#preinstall) |
-| [Non-Docker Installation](#nondocker-install) |
-| [Image Creation and Instantiation](#image-create) |
-| [Accessing the Container](#access-container) |
+**Modified and Enhanced by:** Ubayeid U.
+**Original Project:** AIMA-Project/AAMA-Lab01
 
-There are two methods for installation:
-1. Standard installation on a bare-metal system.
-2. Creation of a docker image that contains the needed environment.
+Welcome! This lab teaches you how to extract features from Windows executable files (PE files) and encode them for machine learning analysis. You'll learn to use Python and the LIEF library to analyze malware.
 
-Instructions for both methods can be found below.
+## 📋 Table of Contents
 
-For those already familiar with Docker, but who do not want to go through the process of building the image themselves,
-a pre-built image can be found on [Docker Hub](https://hub.docker.com/r/abcyslab/aama_lab01). This image is
-automatically built and deployed whenever a push is made to the project repository, thus, it is always kept up to date
-with the most recent version of the lab.
+- [What You'll Learn](#what-youll-learn)
+- [Prerequisites](#prerequisites)
+- [Quick Start Guide](#quick-start-guide)
+- [Lab Structure](#lab-structure)
+- [Detailed Setup Instructions](#detailed-setup-instructions)
+- [Running the Labs](#running-the-labs)
+- [Testing Your Work](#testing-your-work)
+- [Troubleshooting](#troubleshooting)
+- [Project Files Explained](#project-files-explained)
 
-## <a id=preinstall>Preinstallation</a>
+## 🎯 What You'll Learn
 
-This lab requires a portable executable (PE) file compiled for Windows to be added by the user. Currently the image
-automatically downloads a predetermined executable file during building. If you opt to use another PE file, almost any
-.exe file from the last 20 years should be sufficient. However, if you do this, the grading script must be modified to
-accomodate the new executable. The new executable should be added to the repository in the "resources" directory and
-given the name "ExamplePE.exe" so it is properly handled.
+- **Feature Extraction**: How to extract meaningful data from Windows executable files
+- **Data Encoding**: How to convert extracted features into formats suitable for machine learning
+- **Malware Analysis**: Understanding PE file structure and suspicious patterns
+- **Python Programming**: Working with libraries, virtual environments, and testing
 
-If you wish to use a container for the lab, instructions for installing Docker can be found on their website:
-- [Windows](https://docs.docker.com/desktop/install/windows-install/)
-- [Mac](https://docs.docker.com/desktop/install/mac-install/)
-- [Linux](https://docs.docker.com/desktop/install/linux-install/)
+## 📚 Prerequisites
 
-Docker Desktop is not needed so long as the command line tools are installed. However, it may be useful having a GUI for
-managing containers and images.
+- **Python 3.7+** installed on your computer
+- **Basic command line knowledge** (we'll guide you through everything!)
+- **Windows, Mac, or Linux** (instructions for all platforms)
 
-## <a id=nondocker-install>Non-Docker Installation</a>
-A standard install of the project on a system without using Docker requires Python 3, with Git also being highly
-recommended. The general set of steps needed for installation are as follows:
-1. Clone the repository to your machine.
-2. Open the "resources" directory of repo in a terminal.
-3. Initialize the virtual environment for Python.
-4. Install the needed packages into the virual environment.
+Don't worry if you're new to virtual environments or unit testing - this guide explains everything!
 
-### Windows
-<!-- Why Windows gotta be different and use back slashes? -->
-```
-$ git clone https://github.com/AIMA-Project/AAMA-Lab01
-$ cd AAMA-Lab01\resources
-$ py -m venv venv
-$ .\venv\bin\Activate.ps1
-$ pip install -r requirements.txt
+## 🚀 Quick Start Guide
+
+### Step 1: Get the Code
+
+```bash
+git clone https://github.com/AIMA-Project/AAMA-Lab01
+cd AAMA-Lab01
 ```
 
-### Linux
-```
-$ git clone https://github.com/AIMA-Project/AAMA-Lab01
-$ cd AAMA-Lab01/resources
-$ python3 -m venv venv
-$ source venv/bin/activate
-$ pip3 install -r requirements.txt
-```
+### Step 2: Set Up Python Environment
 
-## <a id=image-create>Image Creation and Instantiation</a>
-This method of installation requires Docker to be installed and running on the user's computer. These instructions
-should work for both Linux and Windows operating systems, but there may be some slight deviations for your system.
+**Windows:**
 
-<!-- This is a HUGE security issue. Please don't do this unless you have to. -->
-**It is important to note that Linux users will have to run Docker commands as root or using the `sudo` command! You can
-follow the [official directions](https://docs.docker.com/engine/install/linux-postinstall/) for how to bypass this, but
-it highly recommended that you do not.**
-
-Building the image can be done in two simple commands. Alternatively, these commands are provided in the
-"docker_setup.ps1" script.
-
-While this is a `.ps1` file, it should have syntax compatible with most Linux systems. The executable bit may need to be
-set before running, which requires the command `chmod +x docker_setup.ps1` to be ran. Remember that unless Docker has
-been setup to bypass needing elevated privileges, `sudo` will have to be used when calling the script.
-<!-- TODO: Actually test to see if it runs on Linux... -->
-
-Alternatively, the two commands can be ran manually in succession:
-```
-$ docker build -t lab01-image .
-$ docker run --name lab01 -it lab01-image
+```powershell
+python -m venv myenv
+myenv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
-These commands perform the following operations:
-1. Build a static base image called "lab01-image" from which instances of the lab (called containers) can be created.
-2. Create a container instance of the lab and give it the name "lab01."
+**Mac/Linux:**
 
-If you need to redeploy the container from the image at any point, you must first delete the current instance of the
-lab container. The command `docker container rm lab01` can be used to delete the current instance of the lab01
-container. **You will lose any data stored in the container when you perform this command!**
-
-If you need to rebuild the entire image from scratch, you can first delete the current image stored on your machine with
-`docker image rm lab01-image`, then use the above commands to build and reploy the new version.
-
-## <a id=access-container>Accessing the Container</a>
-If lab the needs to be accessed in the future, an already-existing container can be started again to continue work from
-the point left off. Depending on the IDE and method by which you are calling Docker, the steps for starting and
-attaching to the container will vary.
-
-The most basic method of reinstantiating a container is by using Docker's command-line tools. Two commands are needed to
-restart the container and then attach your terminal to it.
-
-```
-$ docker start lab01
-$ docker attach lab01
+```bash
+python3 -m venv myenv
+source myenv/bin/activate
+pip install -r requirements.txt
 ```
 
-A more advance approach if an IDE is being used is to utilize plugins or extensions to allow interfacing with the Docker
-service and your containers.
+### Step 3: Run the Labs
 
-Microsoft offers two plugins for [Visual Studio Code](https://code.visualstudio.com) that integrate with Docker and
-allow for starting and stopping containers, deleting containers and images, and attaching VSCode to a Docker container
-as if it was a local project directory.
-- [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
-- [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+```bash
+# Run Lab 1a (basic feature extraction)
+python FeatureExtraction1a.py ExamplePE.exe
 
-Using both of these plugins allows for extensive integration with Docker and greatly simplifies interfacing with it. It
-also allows for easy transference of files between the Docker container and host OS.
+# Run Lab 1b (feature extraction + encoding)
+python FeatureExtraction1b.py ExamplePE.exe
+```
 
-___
-**Project funded by the National Science Foundation (NSF)**
+### Step 4: Test Your Work
 
-<!--
- ____                                                                  __                             
-/\  _`\                                                               /\ \                            
-\ \ \/\ \  _ __    __   __  __  __      __  __  __     __      ____   \ \ \___      __   _ __    __   
- \ \ \ \ \/\`'__\/'__`\/\ \/\ \/\ \    /\ \/\ \/\ \  /'__`\   /',__\   \ \  _ `\  /'__`\/\`'__\/'__`\ 
-  \ \ \_\ \ \ \//\  __/\ \ \_/ \_/ \   \ \ \_/ \_/ \/\ \L\.\_/\__, `\   \ \ \ \ \/\  __/\ \ \//\  __/ 
-   \ \____/\ \_\\ \____\\ \___x___/'    \ \___x___/'\ \__/.\_\/\____/    \ \_\ \_\ \____\\ \_\\ \____\
-    \/___/  \/_/ \/____/ \/__//__/       \/__//__/   \/__/\/_/\/___/      \/_/\/_/\/____/ \/_/ \/____/
+```bash
+# Test Lab 1a
+python -m unittest GradeScript1a.py
 
-Thursday, April 25, 2024
--->                                                                                                  
+# Test Lab 1b
+python -m unittest GradeScript1b.py
+```
+
+## 🏗️ Lab Structure
+
+### Lab 1a: Basic Feature Extraction
+
+**Goal**: Extract key features from a Windows executable file
+
+- File hash (SHA-256)
+- File size information
+- Target architecture (x86, x64, etc.)
+- Section information and entropy values
+
+### Lab 1b: Advanced Feature Extraction + Encoding
+
+**Goal**: Extract features AND encode them for machine learning
+
+- Everything from Lab 1a
+- One-hot encoding for machine types
+- Numerical encoding for section names
+- Data preparation for ML algorithms
+
+## 📖 Detailed Setup Instructions
+
+### What is a Virtual Environment?
+
+A virtual environment is like a separate, clean workspace for your Python project. It prevents conflicts between different projects and keeps your system clean.
+
+Think of it like having a separate toolbox for each project - your tools don't get mixed up!
+
+### Setting Up Your Virtual Environment
+
+1. **Create the environment** (like creating a new toolbox):
+
+   ```bash
+   python -m venv myenv
+   ```
+
+2. **Activate the environment** (like opening your toolbox):
+
+   **Windows:**
+
+   ```powershell
+   myenv\Scripts\Activate.ps1
+   ```
+
+   **Mac/Linux:**
+
+   ```bash
+   source myenv/bin/activate
+   ```
+
+   You'll see `(myenv)` at the start of your command prompt when it's active.
+
+3. **Install required packages** (like putting tools in your toolbox):
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### What Gets Installed?
+
+- **LIEF**: A library for analyzing executable files
+- **Standard Python libraries**: For file operations, hashing, etc.
+
+## 🧪 Running the Labs
+
+### Understanding the Output
+
+When you run the scripts, you'll see output like:
+
+```
+1df56772594a5ec2f550c7727a4879142736106da68b5d185c4391e08b48ec5e  # SHA-256 hash
+446464                                                              # Header size
+446464                                                              # Virtual size
+I386                                                                # Architecture
+5                                                                   # Number of sections
+{'.text': 6.4723, '.rdata': 5.2098, '.data': 4.1106, '.ndata': 0.0, '.rsrc': 5.732}  # Section entropy
+```
+
+**What This Means:**
+
+- **Hash**: Unique fingerprint of the file
+- **Sizes**: How big the file is in memory
+- **Architecture**: What type of processor it's built for
+- **Sections**: Different parts of the executable (code, data, resources)
+- **Entropy**: Measure of randomness (high entropy might indicate encryption/packing)
+
+## 🧪 Testing Your Work
+
+### What are Unit Tests?
+
+Unit tests automatically check if your code works correctly. Think of them like automated grading - they run your code and verify the output matches what's expected.
+
+### Running Tests
+
+```bash
+# Test basic feature extraction
+python -m unittest GradeScript1a.py
+
+# Test advanced feature extraction + encoding
+python -m unittest GradeScript1b.py
+```
+
+### Understanding Test Results
+
+- **`.` (dot)**: Test passed ✅
+- **`F`**: Test failed ❌
+- **`E`**: Test had an error 💥
+
+Example successful output:
+
+```
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.123s
+
+OK
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**"No module named 'lief'"**
+
+- **Solution**: Make sure your virtual environment is activated and run `pip install -r requirements.txt`
+
+**"Cannot find file 'ExamplePE.exe'"**
+
+- **Solution**: Make sure you're running the command from the main lab directory
+
+**Virtual environment not activating**
+
+- **Windows**: Try `myenv\Scripts\activate.bat` instead of `.ps1`
+- **Mac/Linux**: Make sure you're using `source` before the activate command
+
+**Permission errors on Windows**
+
+- **Solution**: Try running PowerShell as Administrator, or use `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+
+### Getting Help
+
+If you're stuck:
+
+1. Check that your virtual environment is active (you see `(myenv)` in your prompt)
+2. Verify you're in the correct directory
+3. Make sure all files are present
+4. Try deactivating and reactivating your virtual environment
+
+## 📁 Project Files Explained
+
+```
+AAMA-Lab01/
+├── README.md                    # This file - your guide!
+├── requirements.txt             # List of Python packages needed
+├── ExamplePE.exe               # Sample Windows executable for analysis
+├── FeatureExtraction1a.py      # Lab 1a: Basic feature extraction
+├── FeatureExtraction1b.py      # Lab 1b: Advanced extraction + encoding
+├── GradeScript1a.py           # Tests for Lab 1a
+├── GradeScript1b.py           # Tests for Lab 1b
+├── myenv/                     # Your virtual environment (created by you)
+├── deliverables/              # Where you put completed work
+└── .github/                   # GitHub configuration (ignore this)
+```
+
+### Key Files You'll Work With:
+
+- **FeatureExtraction1a.py**: Your main Lab 1a script
+- **FeatureExtraction1b.py**: Your main Lab 1b script
+- **ExamplePE.exe**: The file you'll analyze (Notepad++ installer)
+- **GradeScript\*.py**: Automated tests to check your work
+
+## 🎓 Learning Goals
+
+By completing this lab, you'll understand:
+
+- How malware analysts extract features from suspicious files
+- Why file entropy matters in malware detection
+- How to prepare data for machine learning algorithms
+- Python virtual environments and testing
+- The structure of Windows executable files
+
+## 🏆 Success Criteria
+
+You've successfully completed the lab when:
+
+- [ ] Both Python scripts run without errors
+- [ ] All unit tests pass
+- [ ] You understand what each extracted feature means
+- [ ] You can explain the difference between raw and encoded features
+
+---
+
+**📧 Need Help?** Ask your instructor or TA if you get stuck!
+
+**�‍💻 Project Enhanced by:** Md Ubayeid Ullah  
+**�🔬 Funded by:** National Science Foundation (NSF) Grant #2025682
